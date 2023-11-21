@@ -18,45 +18,9 @@ from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 from langchain.llms import HuggingFaceHub
 
-# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# def get_text(files):
-#     text = ""
-#     for pdf in files:
-#         pdf_reader = PdfReader(pdf)
-#         for page in pdf_reader.pages:
-#             text += page.extract_text()
-#     return text # this function extract text from all pages of all the pdfs & store them in the `text` variable
-
-# def get_text(files):
-#     """
-#     this function extract text from all pages of all the pdfs 
-#     & store them in the `text` variable
-#     """
-#     text = ""
-#     for file in files:
-#         if file.name.endswith('.pdf'):
-#             pdf_reader = PdfReader(file)
-#             for page in pdf_reader.pages:
-#                 text += page.extract_text()
-#         elif file.name.endswith('.txt'):
-#             with open(file, 'r') as txt_file:
-#                 text += txt_file.read()
-#         elif file.name.endswith('.csv'):
-#             loader = CSVLoader(file_path=file)
-#             documents = loader.load()
-#             text=[i.page_content for i in documents]
-#         elif file.name.endswith('.xlsx'):
-#             csv_file = file.replace('.xlsx', '.csv')
-#             df = pd.read_excel(file)
-#             df.to_csv(csv_file, index=False)
-#             loader = CSVLoader(file_path=csv_file)
-#             documents = loader.load()
-#             text=[i.page_content for i in documents]
-#             # Delete the temporary CSV file
-#             os.remove(csv_file)
-#     return text
-
+# langcorn + fastapi
+from fastapi import FastAPI
+from langcorn import create_service
 
 
 def get_text(files):
@@ -92,7 +56,7 @@ def get_text_chunks(text):
     return chunks
 
 def get_vectorstore(text_chunks):
-    # embeddings = OpenAIEmbeddings()
+    # re consider vietnamese-sbert
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl") 
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
