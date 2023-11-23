@@ -20,7 +20,7 @@ async def input(input: Input):
 origins = [
     "<http://localhost>",
     "<http://localhost:5173>",
-        "ADD DOMAIN HERE"
+     # "ADD DOMAIN HERE"
 ]
 
 app.add_middleware(
